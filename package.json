@@ -1,0 +1,46 @@
+{
+  "name": "refactionjs",
+  "version": "1.0.0",
+  "description": "Refactoring exercise for Node",
+  "main": "server/index",
+  "scripts": {
+    "setup": "yarn knex migrate:latest && yarn knex seed:run ",
+    "dev": "nodemon --watch server & webpack --watch",
+    "test": "jest --watchAll",
+    "start": "node server",
+    "postinstall": "webpack"
+  },
+  "author": "Joshua Fogg",
+  "license": "NO LICENCE",
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ]
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "knex": "^0.14.2",
+    "pg": "^7.4.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "enzyme": "^3.3.0",
+    "jest": "^22.2.2",
+    "nock": "^9.1.6",
+    "nodemon": "^1.14.12",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-materialize": "^2.2.1",
+    "react-redux": "^5.0.6",
+    "react-toolbox": "^2.0.0-beta.13",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "superagent": "^3.8.2",
+    "supertest": "^3.0.0",
+    "webpack": "^3.11.0"
+  }
+}
