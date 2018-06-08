@@ -1,0 +1,31 @@
+exports.seed = (knex) => {
+    return knex('people').del()
+        .then( () => {
+            return knex('people').insert([
+                {
+                    name: "Jim",
+                    age: 30,
+                    gender: "male",
+                    _id: "b3Fshn8F976TZCTg"
+                },
+                {
+                    name: "Jane",
+                    age: 55,
+                    gender: "female",
+                    _id: "k3nEqkqlKmWZNejC"
+                },
+                {
+                    name: "Bob",
+                    age: 20,
+                    gender: "male",
+                    _id: "oqnu2ZnPTebp04bG"
+                },
+                {
+                    name: "Sally",
+                    age: 24,
+                    gender: "female",
+                    _id: "tKmv8RC6GlUnYcV3"
+                }
+            ])
+        })
+}
