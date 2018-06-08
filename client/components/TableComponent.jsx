@@ -9,7 +9,7 @@ const UserModel = {
     __id: { type: Number },
 };
 
-const users = [
+const usersLocal = [
     {
         name: "Jim",
         age: 30,
@@ -37,11 +37,15 @@ const users = [
 ];
 
 class UserTable extends React.Component {
-    constructor({ dispatch, users }){
+    constructor({ users }){
         super()
         this.state = {
-            source: users || [],
-            selected: []
+            source: users || [{
+                name: "Jim",
+                age: 30,
+                gender: "male",
+                _id: "b3Fshn8F976TZCTg"
+            }],
         }
     }
 
@@ -57,7 +61,7 @@ class UserTable extends React.Component {
 
 function mapStateToProps(state) {
     return {
-      users
+      users: state.users
     }
   }
 
