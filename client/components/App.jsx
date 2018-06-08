@@ -7,7 +7,7 @@ import WaitIndicator from './WaitIndicator'
 import Filter from './Filter'
 
 const App = () => (
-  <div className='app'>
+  <div className='root'>
     <ErrorMessage />
     <LoadUsers />
     <Filter />

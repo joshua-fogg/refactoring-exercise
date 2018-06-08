@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-
+import { connect } from 'react-redux'
 
 const UserModel = {
     name: { type: String },

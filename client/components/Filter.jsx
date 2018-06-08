@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button } from 'react-toolbox/lib/button/Button.js';
+import { connect } from 'react-redux';
 
 import { VisibilityFilters } from '../actions'
 
