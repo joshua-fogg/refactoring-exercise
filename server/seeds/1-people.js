@@ -1,7 +1,7 @@
 exports.seed = (knex) => {
-    return knex('people').del()
+    return knex('users').del()
         .then( () => {
-            return knex('people').insert([
+            return knex('users').insert([
                 {
                     name: "Jim",
                     age: 30,
