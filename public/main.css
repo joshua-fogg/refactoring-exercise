@@ -2,3 +2,12 @@
   color: red;
   font-weight: bold;
 }
+/* 
+.btn{
+  background: orange;
+} */
+.nav-bar{
+  display: inline-flex;
+  width: 90%;
+  margin-left: 10%;
+}

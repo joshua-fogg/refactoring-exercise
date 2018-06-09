@@ -30,7 +30,7 @@ const defaultUserList = [
 function users (state = defaultUserList, action) {
   switch (action.type) {
     case RECEIVE_USERS:
-      return action.users
+      return state
 
     default:
       return state
