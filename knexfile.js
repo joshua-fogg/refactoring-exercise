@@ -1,8 +1,8 @@
 module.exports = {
   development: {
-    client: 'pg',
+    client: 'sqlite',
     connection: {
-      filename: './dev.postgresql',
+      filename: './dev.sqlite',
       database: 'my_db',
       user: 'username',
       password: 'password'
