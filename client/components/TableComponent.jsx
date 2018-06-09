@@ -41,7 +41,7 @@ class UserTable extends React.Component {
     constructor({ users }) {
         super()
         this.state = {
-            source: usersLocal,
+            source: users,
         }
     }
 
