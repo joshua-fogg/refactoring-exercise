@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import Table from 'react-toolbox/lib/table/Table.js';
 
 const UserModel = {
     name: { type: String },
@@ -37,21 +38,16 @@ const usersLocal = [
 ];
 
 class UserTable extends React.Component {
-    constructor({ users }){
+    constructor({ users }) {
         super()
         this.state = {
-            source: users || [{
-                name: "Jim",
-                age: 30,
-                gender: "male",
-                _id: "b3Fshn8F976TZCTg"
-            }],
+            source: usersLocal,
         }
     }
 
     render() {
         return (
-            <UserTable
+            <Table
                 model={UserModel}
                 source={this.state.source}
             />
