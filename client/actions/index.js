@@ -18,7 +18,11 @@ export const setVisibilityFilter = filter => ({
 export const receiveUsers = (users) => {
   return {
     type: RECEIVE_USERS,
-    users: users.map(user => user.data)
+    users: users
+    // .map(user => {
+    //   console.log(users);
+    //   return user.data
+    // })
   }
 }
 
@@ -37,7 +41,7 @@ export const VisibilityFilters = {
   SHOW_FEMALE: 'SHOW_FEMALE'
 }
 
-export function fetchUsers (users) {
+export function fetchUsers(users) {
   return (dispatch) => {
     dispatch(requestUsers())
     return request
