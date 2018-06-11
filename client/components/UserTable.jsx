@@ -1,80 +1,91 @@
-import React from "react";
-import { render } from "react-dom";
+import React from 'react';
 import { connect } from 'react-redux';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-import ReactTable from "react-table";
-import "react-table/react-table.css";
+import { fetchUsers } from '../actions/users';
+import filterUsers from '../actions/filter';
 
-const UserModel = {
-  name: { type: String },
-  age: { type: Number },
-  gender: { type: String },
-  __id: { type: Number },
-};
-
-const defaultUserList = [
-  {
-    name: "Jim",
-    age: 30,
-    gender: "male",
-    _id: "b3Fshn8F976TZCTg"
-  },
-  {
-    name: "Jane",
-    age: 55,
-    gender: "female",
-    _id: "k3nEqkqlKmWZNejC"
-  },
-  {
-    name: "Bob",
-    age: 20,
-    gender: "male",
-    _id: "oqnu2ZnPTebp04bG"
-  },
-  {
-    name: "Sally",
-    age: 24,
-    gender: "female",
-    _id: "tKmv8RC6GlUnYcV3"
-  }
-]
+// const UserModel = {
+//   name: { type: String },
+//   age: { type: Number },
+//   gender: { type: String },
+//   __id: { type: Number }
+// };
 
 class UserTable extends React.Component {
   constructor({ users }) {
-    super()
-    this.state = { users }
+    super();
+    this.state = { users, count: 29 };
+  }
+
+  componentDidMount() {
+    this.props.fetchUsers();
+  }
+
+  componentWillReceiveProps({ users }) {
+    this.setState({ users: users });
+  }
+
+  handleFilter(payload) {
+    console.log(payload);
+    this.props.dispatch(filterUsers());
   }
 
   render() {
-    return (
-        <ReactTable
-          data={ defaultUserList }
-          columns={[
-            {
-              Header: "Name",
-              accessor: "name"
-            },
-            {
-              Header: "Age",
-              accessor: "age"
-            },
-            {
-              Header: "gender",
-              accessor: "gender"
-            }
-          ]}
-          defaultPageSize={10}
-          // className="-striped -highlight"
-          style={{ width: 400 + 'px' }}
-        />
-    );
+    const userList = this.state.users.length > 1 ? (
+      <p>
+        {
+          this.state.users.map((user) => {
+            return (
+              <li key={user._id} >
+                {user.name}
+              </li>
+            );
+          })
+        }
+      </p>
+    ) : (
+        <section>
+          <p> No User Data Yet :/ </p>
+          <button onClick={() => this.props.fetchUsers()}> Retry </button>
+        </section>
+      );
+
+
+    const qualityType = {
+      "male": "male",
+      "female": "female"
+    };
+
+    function enumFormatter(cell, row, enumObject) {
+      return enumObject[cell];
+    }
+
+    return <div>
+      {/* <button onClick={() => this.addUser()}> Add User </button> */}
+      <section>
+        <BootstrapTable data={this.state.users} striped hover>
+          <TableHeaderColumn isKey={true} dataField='id'>ID</TableHeaderColumn>
+          <TableHeaderColumn dataField='name' filter={{ type: 'TextFilter', delay: 200 }}>Name</TableHeaderColumn>
+          <TableHeaderColumn dataField='age' filter={{ type: 'TextFilter', delay: 200 }}>Age</TableHeaderColumn>
+          <TableHeaderColumn dataField='gender' >Gender</TableHeaderColumn>
+        </BootstrapTable>
+        {userList}
+      </section>
+    </div >;
   }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchUsers: () => dispatch(fetchUsers())
+  };
 }
 
 function mapStateToProps(state) {
   return {
     users: state.users
-  }
+  };
 }
 
-export default connect(mapStateToProps)(UserTable)
+export default connect(mapStateToProps, mapDispatchToProps)(UserTable);
