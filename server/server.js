@@ -1,11 +1,11 @@
-const path = require('path')
-const express = require('express')
+const path = require('path');
+const express = require('express');
 
-const userController = require('./users')
-const server = express()
+const userController = require('./users');
+const server = express();
 
-server.use(express.static(path.join(__dirname, '../public')))
+server.use(express.static(path.join(__dirname, '../public')));
 
-server.use('/api/v1/users', userController)
+server.use('/api/v1/users', userController);
 
-module.exports = server
+module.exports = server;
