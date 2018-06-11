@@ -6,7 +6,7 @@ import { fetchUsers } from '../actions/users';
 import filterUsers from '../actions/filter';
 
 class UserTable extends React.Component {
-  constructor({ users }) {
+  constructor ({ users }) {
     super();
     this.state = {
       users,
@@ -20,39 +20,38 @@ class UserTable extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.fetchUsers();
     this.state.filters.age = 'over30';
     this.filterUsers();
   }
 
-  componentWillReceiveProps({ users }) {
-    console.log(users);
+  componentWillReceiveProps ({ users }) {
     this.setState({ users: [...users], virginUsers: users });
   }
 
-  componentWillMount() {
+  componentWillMount () {
     this.selectedCheckBoxes = new Set();
   }
 
-  handleFilters(filterKey) {
-    this.state.filters[filterKey] = !this.state.filters[filterKey];
+  handleFilters (filterKey) {
+    this.toggleState(filterKey);
     this.filterUsers();
+  }
+
+  toggleState (filterKey) {
+    this.state.filters[filterKey] = !this.state.filters[filterKey];
   }
 
   filterUsers () {
     const users = [...this.state.virginUsers];
     const filteredUsers = [];
 
-
-
     console.log('filter', users);
-    this.setState({users: filteredUsers})
-
+    this.setState({users: filteredUsers});
   }
 
-  render() {
-
+  render () {
     const userList = this.state.virginUsers.length > 1
       ? this.state.users.map((user) => {
         return (
@@ -99,13 +98,13 @@ class UserTable extends React.Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
   return {
     fetchUsers: () => dispatch(fetchUsers())
   };
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return {
     users: state.users
   };
