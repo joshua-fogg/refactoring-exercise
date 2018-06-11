@@ -1,76 +1,100 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import classNames from 'classnames';
 
 import { fetchUsers } from '../actions/users';
 import filterUsers from '../actions/filter';
 
-// const UserModel = {
-//   name: { type: String },
-//   age: { type: Number },
-//   gender: { type: String },
-//   __id: { type: Number }
-// };
-
 class UserTable extends React.Component {
   constructor({ users }) {
     super();
-    this.state = { users, count: 29 };
+    this.state = {
+      users,
+      virginUsers: users,
+      filters: {
+        over30: false,
+        under30: false,
+        female: false,
+        male: false
+      }
+    };
   }
 
   componentDidMount() {
     this.props.fetchUsers();
+    this.state.filters.age = 'over30';
+    this.filterUsers();
   }
 
   componentWillReceiveProps({ users }) {
-    this.setState({ users: users });
+    console.log(users);
+    this.setState({ users: [...users], virginUsers: users });
   }
 
-  handleFilter(payload) {
-    console.log(payload);
-    this.props.dispatch(filterUsers());
+  componentWillMount() {
+    this.selectedCheckBoxes = new Set();
+  }
+
+  handleFilters(filterKey) {
+    this.state.filters[filterKey] = !this.state.filters[filterKey];
+    this.filterUsers();
+  }
+
+  filterUsers () {
+    const filters = this.state.filters;
+    const users = [...this.state.virginUsers];
+    const filteredUsers = [];
+
+    
+
+    console.log('filter', users);
+    this.setState({users: filteredUsers})
+
   }
 
   render() {
-    const userList = this.state.users.length > 1 ? (
-      <p>
-        {
-          this.state.users.map((user) => {
-            return (
-              <li key={user._id} >
-                {user.name}
-              </li>
-            );
-          })
-        }
-      </p>
-    ) : (
-        <section>
-          <p> No User Data Yet :/ </p>
+
+    const userList = this.state.virginUsers.length > 1
+      ? this.state.users.map((user) => {
+        return (
+          <tr key={user.id}>
+            <th scope="row">{user.id}</th>
+            <td>{user.name}</td>
+            <td>{user.age}</td>
+            <td>{user.gender}</td>
+          </tr>
+        );
+      }) : (
+        <tr>
+          <p> No User Data Yet :/  </p>
           <button onClick={() => this.props.fetchUsers()}> Retry </button>
-        </section>
+        </tr>
       );
 
+    return <div class="container">
+      <label> Filters: </label>
+      <section className="row">
+        <button className="btn" onClick={() => this.handleFilters('over30') }> Over Thirty </button>
+        <button className="btn" onClick={() => this.handleFilters('under30') }> Under Thirty </button>
+        <button className="btn" onClick={() => this.handleFilters('male') } > Male </button>
+        <button className="btn" onClick={() => this.handleFilters('female') }> Female </button>
+        <button className="btn"> Remove Filters</button>
+      </section>
+      <section className="row">
+        <table className="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Age</th>
+              <th scope="col">Gender</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.virginUsers.length > 1 && userList}
+          </tbody>
+        </table>
 
-    const qualityType = {
-      "male": "male",
-      "female": "female"
-    };
-
-    function enumFormatter(cell, row, enumObject) {
-      return enumObject[cell];
-    }
-
-    return <div>
-      {/* <button onClick={() => this.addUser()}> Add User </button> */}
-      <section>
-        <BootstrapTable data={this.state.users} striped hover>
-          <TableHeaderColumn isKey={true} dataField='id'>ID</TableHeaderColumn>
-          <TableHeaderColumn dataField='name' filter={{ type: 'TextFilter', delay: 200 }}>Name</TableHeaderColumn>
-          <TableHeaderColumn dataField='age' filter={{ type: 'TextFilter', delay: 200 }}>Age</TableHeaderColumn>
-          <TableHeaderColumn dataField='gender' >Gender</TableHeaderColumn>
-        </BootstrapTable>
-        {userList}
       </section>
     </div >;
   }
