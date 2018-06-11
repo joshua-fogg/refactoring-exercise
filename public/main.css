@@ -1,3 +1,4 @@
+require('node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css');
 .error {
   color: red;
   font-weight: bold;
@@ -10,4 +11,18 @@
   display: inline-flex;
   width: 90%;
   margin-left: 10%;
+}
+
+.background {
+  background-image: url('pexels-photo-207896.jpeg');
+  color: #FFFF;
+  padding: 20px 20px 10px 10px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.nav-bar {
+  margin: 10px;
+  width: 100%;
+  padding: auto;
 }
