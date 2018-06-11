@@ -1,13 +1,15 @@
-import {SHOW_ERROR} from '../actions'
+import {
+  SHOW_ERROR
+} from '../actions';
 
 function errorMessage (state = '', action) {
   switch (action.type) {
     case SHOW_ERROR:
-      return action.errorMessage
+      return action.errorMessage;
 
     default:
-      return state
+      return state;
   }
 }
 
-export default errorMessage
+export default errorMessage;
