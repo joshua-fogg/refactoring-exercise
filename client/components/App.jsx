@@ -1,18 +1,15 @@
 import React from 'react'
 
-import ErrorMessage from './ErrorMessage'
-import LoadUsers from './LoadUsers'; // TODO: REMOVE THIS WITH LIFECYCLE HOOK
-import UserTable from './UserTable'
-import WaitIndicator from './WaitIndicator'
-import Filter from './Filter'
+import ErrorMessage from './ErrorMessage';
+import UserTable from './UserTable';
+import WaitIndicator from './WaitIndicator';
 
 const App = () => (
   <div className='root container'>
     <ErrorMessage />
     <section>
-    <Filter />
-    <WaitIndicator />
-    <UserTable />
+      <WaitIndicator />
+      <UserTable />
     </section>
   </div>
 )

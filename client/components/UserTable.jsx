@@ -41,11 +41,10 @@ class UserTable extends React.Component {
   }
 
   filterUsers () {
-    const filters = this.state.filters;
     const users = [...this.state.virginUsers];
     const filteredUsers = [];
 
-    
+
 
     console.log('filter', users);
     this.setState({users: filteredUsers})
