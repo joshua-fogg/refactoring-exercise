@@ -5,7 +5,7 @@ import showError from '.';
 export const RECEIVE_USERS = 'RECEIVE_USERS';
 export const REQUEST_USERS = 'REQUEST_USERS';
 
-export function fetchUsers (users) {
+export function fetchUsers(users) {
   return dispatch => {
     dispatch(requestUsers());
     return request
@@ -13,7 +13,6 @@ export function fetchUsers (users) {
         if (err) {
           return dispatch(showError(err));
         } else {
-          console.log('RETURNED DATA', res.body);
           dispatch(receiveUsers(res.body));
         }
       });
@@ -21,7 +20,6 @@ export function fetchUsers (users) {
 }
 
 export const receiveUsers = (users) => {
-  console.log('actions-reieveUsers', users);
   return {
     type: RECEIVE_USERS,
     users: users

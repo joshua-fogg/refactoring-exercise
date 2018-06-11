@@ -1,2 +1,2 @@
-export * from './filter';
+export * from './error';
 export * from './users';

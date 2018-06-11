@@ -1,12 +1,19 @@
 {
-    "extends": "standard",
-    "parserOptions": {
-        "ecmaVersion": 5,
-        "ecmaFeatures": {
-            "jsx": true
-        }
-    },
-    "rules": {
-        "semi": [2, "always"]
+  "extends": [
+    "standard",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 5,
+    "ecmaFeatures": {
+      "jsx": true
     }
+  },
+  "rules": {
+    "semi": [1, "always"],
+    "react/prop-types": 0,
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
+  }
 }

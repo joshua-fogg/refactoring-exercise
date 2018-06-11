@@ -6,7 +6,7 @@ module.exports = {
   getUsers: getUsers
 };
 
-function getUsers (testConn) {
+function getUsers(testConn) {
   const conn = testConn || connection;
   return conn('users').select();
 }

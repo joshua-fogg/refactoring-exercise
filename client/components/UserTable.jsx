@@ -20,38 +20,45 @@ class UserTable extends React.Component {
     this.props.fetchUsers();
   }
 
-  componentWillReceiveProps({ users }) {
+  UNSAFE_componentWillReceiveProps({ users }) {
     this.setState({ users: [...users], virginUsers: [...users] });
   }
 
   handleFilters(filterKey, value) {
-    this.setState({ filterKey, value });
+    if (filterKey.includes('30')) {
+      this.setState({ ageFilter: filterKey });
+    } else {
+      this.setState({ genderFilter: filterKey });
+    }
     this.filterUsers(filterKey);
   }
 
   resetTable() {
-    this.state.users = [...this.state.virginUsers];
-    this.state.filters = { ageFilter: false, genderFilter: false };
+    this.setState({
+      users: [...this.state.virginUsers],
+      ageFilter: false,
+      genderFilter: false
+    });
   }
 
   filterUsers(filterKey) {
     const users = [...this.state.virginUsers];
-    const filters = this.state.filters;
+    // const filters = this.state.filters;
     const filteredUsers = users.filter(user => {
 
       // If just age filters
-      if (filters.ageFilter && !filter.genderFilter) {
-        if (filters.ageFilter === 'over30' && user.age >= 30) { return user; }
-        if (filters.ageFilter === 'under30' && user.age <= 30) { return user; }
+      if (this.state.ageFilter && !this.state.genderFilter) {
+        if (this.state.ageFilter === 'over30' && Number(user.age) >= 30) { return user; }
+        if (this.state.ageFilter === 'under30' && Number(user.age) < 30) { return user; }
       }
       // if just genderFilter
-      if (filters.genderFilter && !filter.ageFilter) {
-        if (filters.genderFilter === user.gender) { return user; }
+      if (this.state.genderFilter && !filter.ageFilter) {
+        if (this.state.genderFilter === user.gender) { return user; }
       }
 
-      if (filters.ageFilter && filters.genderFilter) {
-        if (filters.ageFilter === 'over30' && user.age >= 30 && filters.genderFilter === 'male') { return user; }
-        if (filters.ageFilter === 'under30' && user.age <= 30 && filters.genderFilter === user.gender) { return user; }
+      if (this.state.ageFilter && this.state.genderFilter) {
+        if (this.state.ageFilter === 'over30' && Number(user.age) >= 30 && this.state.genderFilter === 'male') { return user; }
+        if (this.state.ageFilter === 'under30' && Number(user.age) <= 30 && this.state.genderFilter === user.gender) { return user; }
       }
     });
 
@@ -76,14 +83,15 @@ class UserTable extends React.Component {
         </tr>
       );
 
-    return <div class="container">
+    return <div className="container">
+      <h2> Friends List </h2>
       <label> Filters: </label>
       <section className="row">
-        <button className={classNames('btn', { active: Boolean(this.state.ageFilter === 'over30') })} onClick={() => this.handleFilters('over30')}> Over Thirty </button>
-        <button className={classNames('btn', { active: Boolean(this.state.ageFilter === 'under30') })} onClick={() => this.handleFilters('under30')}> Under Thirty </button>
-        <button className={classNames('btn', { active: Boolean(this.state.genderFilter === 'male') })} onClick={() => this.handleFilters('male')} > Male </button>
-        <button className={classNames('btn', { active: Boolean(this.state.genderFilter === 'female') })} onClick={() => this.handleFilters('female')}> Female </button>
-        <button className="btn" onCLick={() => this.resetTable()}> Remove Filters</button>
+        <button className={classNames('btn', { active: (this.state.ageFilter === 'over30') })} onClick={() => this.handleFilters('over30')}> Over Thirty </button>
+        <button className={classNames('btn', { active: (this.state.ageFilter === 'under30') })} onClick={() => this.handleFilters('under30')}> Under Thirty </button>
+        <button className={classNames('btn', { active: (this.state.genderFilter === 'male') })} onClick={() => this.handleFilters('male')} > Male </button>
+        <button className={classNames('btn', { active: (this.state.genderFilter === 'female') })} onClick={() => this.handleFilters('female')}> Female </button>
+        <button className="btn" onClick={() => this.resetTable()}> Remove Filters</button>
       </section>
       <section className="row">
         <table className="table table-dark">

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import ErrorMessage from './ErrorMessage';
 import UserTable from './UserTable';

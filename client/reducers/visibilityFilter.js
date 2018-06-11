@@ -5,7 +5,6 @@ import {
 const visibilityFilter = (state = SHOW_ALL, action) => {
   switch (action.type) {
     case SHOW_ALL:
-    console.log('VIS FILTER', action)
       return action;
     default:
       return state;
