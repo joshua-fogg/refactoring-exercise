@@ -3,55 +3,62 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { fetchUsers } from '../actions/users';
-import filterUsers from '../actions/filter';
+import { filter } from 'rsvp';
 
 class UserTable extends React.Component {
-  constructor ({ users }) {
+  constructor({ users }) {
     super();
     this.state = {
       users,
       virginUsers: users,
-      filters: {
-        over30: false,
-        under30: false,
-        female: false,
-        male: false
-      }
+      ageFilter: false,
+      genderFilter: false
     };
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetchUsers();
-    this.state.filters.age = 'over30';
-    this.filterUsers();
   }
 
-  componentWillReceiveProps ({ users }) {
-    this.setState({ users: [...users], virginUsers: users });
+  componentWillReceiveProps({ users }) {
+    this.setState({ users: [...users], virginUsers: [...users] });
   }
 
-  componentWillMount () {
-    this.selectedCheckBoxes = new Set();
+  handleFilters(filterKey, value) {
+    this.setState({ filterKey, value });
+    this.filterUsers(filterKey);
   }
 
-  handleFilters (filterKey) {
-    this.toggleState(filterKey);
-    this.filterUsers();
+  resetTable() {
+    this.state.users = [...this.state.virginUsers];
+    this.state.filters = { ageFilter: false, genderFilter: false };
   }
 
-  toggleState (filterKey) {
-    this.state.filters[filterKey] = !this.state.filters[filterKey];
-  }
-
-  filterUsers () {
+  filterUsers(filterKey) {
     const users = [...this.state.virginUsers];
-    const filteredUsers = [];
+    const filters = this.state.filters;
+    const filteredUsers = users.filter(user => {
 
-    console.log('filter', users);
-    this.setState({users: filteredUsers});
+      // If just age filters
+      if (filters.ageFilter && !filter.genderFilter) {
+        if (filters.ageFilter === 'over30' && user.age >= 30) { return user; }
+        if (filters.ageFilter === 'under30' && user.age <= 30) { return user; }
+      }
+      // if just genderFilter
+      if (filters.genderFilter && !filter.ageFilter) {
+        if (filters.genderFilter === user.gender) { return user; }
+      }
+
+      if (filters.ageFilter && filters.genderFilter) {
+        if (filters.ageFilter === 'over30' && user.age >= 30 && filters.genderFilter === 'male') { return user; }
+        if (filters.ageFilter === 'under30' && user.age <= 30 && filters.genderFilter === user.gender) { return user; }
+      }
+    });
+
+    this.setState({ users: filteredUsers });
   }
 
-  render () {
+  render() {
     const userList = this.state.virginUsers.length > 1
       ? this.state.users.map((user) => {
         return (
@@ -72,11 +79,11 @@ class UserTable extends React.Component {
     return <div class="container">
       <label> Filters: </label>
       <section className="row">
-        <button className="btn" onClick={() => this.handleFilters('over30') }> Over Thirty </button>
-        <button className="btn" onClick={() => this.handleFilters('under30') }> Under Thirty </button>
-        <button className="btn" onClick={() => this.handleFilters('male') } > Male </button>
-        <button className="btn" onClick={() => this.handleFilters('female') }> Female </button>
-        <button className="btn"> Remove Filters</button>
+        <button className={classNames('btn', { active: Boolean(this.state.ageFilter === 'over30') })} onClick={() => this.handleFilters('over30')}> Over Thirty </button>
+        <button className={classNames('btn', { active: Boolean(this.state.ageFilter === 'under30') })} onClick={() => this.handleFilters('under30')}> Under Thirty </button>
+        <button className={classNames('btn', { active: Boolean(this.state.genderFilter === 'male') })} onClick={() => this.handleFilters('male')} > Male </button>
+        <button className={classNames('btn', { active: Boolean(this.state.genderFilter === 'female') })} onClick={() => this.handleFilters('female')}> Female </button>
+        <button className="btn" onCLick={() => this.resetTable()}> Remove Filters</button>
       </section>
       <section className="row">
         <table className="table table-dark">
@@ -98,13 +105,13 @@ class UserTable extends React.Component {
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     fetchUsers: () => dispatch(fetchUsers())
   };
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     users: state.users
   };

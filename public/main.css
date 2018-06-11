@@ -3,10 +3,7 @@ require('node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.c
   color: red;
   font-weight: bold;
 }
-/* 
-.btn{
-  background: orange;
-} */
+
 .nav-bar{
   display: inline-flex;
   width: 90%;
@@ -16,13 +13,21 @@ require('node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.c
 .background {
   background-image: url('pexels-photo-207896.jpeg');
   color: #FFFF;
-  padding: 20px 20px 10px 10px;
-  margin-top: 30px;
-  margin-bottom: 10px;
+  /* padding: 20px 20px 10px 10px; */
+  /* margin-top: 30px; */
+  /* margin-bottom: 10px; */
+  width: 90%;
+  padding-top: 50px;
+  margin:auto;
+  height: auto;
 }
 
 .nav-bar {
   margin: 10px;
   width: 100%;
   padding: auto;
+}
+
+.active{
+  background: grey;
 }
